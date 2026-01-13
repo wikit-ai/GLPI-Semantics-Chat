@@ -2,43 +2,89 @@
     <name>Wikit Semantics Chat</name>
     <key>wikitsemanticschat</key>
     <state>stable</state>
-    <logo>https://raw.githubusercontent.com/wikitai/GLPI-Semantics-Chat/main/wikitsemanticschat.png</logo>
+    <logo>https://raw.githubusercontent.com/wikitai/GLPI-Semantics-Chat/main/logo-wikit-yellow.png</logo>
     <description>
         <short>
-            <en><![CDATA[Inject Semantics Chat AI assistant widget into GLPI]]></en>
-            <fr><![CDATA[Injecte le widget assistant IA Semantics Chat dans GLPI]]></fr>
+            <en>Your AI assistant available 24/7: instant support and intelligent guidance directly in GLPI.</en>
+            <fr>Votre assistant IA disponible 24/7 : support instantané et accompagnement intelligent directement dans GLPI.</fr>
         </short>
         <long>
-            <en><![CDATA[
-                This plugin integrates Semantics Chat, an AI-powered chatbot assistant, into your GLPI interface.
-                It helps technicians by providing intelligent assistance directly within GLPI.
+            <en><![CDATA[<p>Wikit Semantics Chat integrates a conversational AI assistant directly into your GLPI interface, accessible on all pages. Your teams benefit from instant, intelligent support to answer their questions and guide them through their daily tasks.</p>
 
-                Features:
-                - AI chatbot widget on all GLPI pages
-                - Customizable appearance (color, position, icon)
-                - User context awareness (passes user information to the chatbot)
-                - Easy configuration through GLPI admin interface
-                - GLPI 11 compatible with modern architecture
-            ]]></en>
-            <fr><![CDATA[
-                Ce plugin integre Semantics Chat, un assistant chatbot propulse par l'IA, dans votre interface GLPI.
-                Il aide les techniciens en fournissant une assistance intelligente directement dans GLPI.
+<h3>Key Features:</h3>
+<ul>
+    <li><strong>24/7 availability:</strong> Always-on AI assistant accessible from any GLPI page</li>
+    <li><strong>Contextual intelligence:</strong> Leverages your knowledge base and business processes</li>
+    <li><strong>Natural conversation:</strong> Intuitive chat interface for asking questions in natural language</li>
+</ul>
 
-                Fonctionnalites :
-                - Widget chatbot IA sur toutes les pages GLPI
-                - Apparence personnalisable (couleur, position, icone)
-                - Contexte utilisateur (transmet les informations utilisateur au chatbot)
-                - Configuration facile via l'interface d'administration GLPI
-                - Compatible GLPI 11 avec architecture moderne
-            ]]></fr>
+<h3>Benefits:</h3>
+<ul>
+    <li>Instant answers without leaving GLPI</li>
+    <li>Reduced support workload for your teams</li>
+    <li>Accelerated user autonomy and onboarding</li>
+    <li>Seamless integration into your existing workflow</li>
+</ul>
+
+<h3>Prerequisites:</h3>
+<p><strong>Wikit Semantics Chat license required:</strong> This plugin requires a Wikit Semantics Chat subscription to operate. You must be a Wikit customer to use this service.</p>
+
+<p>To obtain a license or a demonstration:</p>
+<ul>
+    <li><a href="https://www.wikit.ai" target="_blank">https://www.wikit.ai</a></li>
+    <li><a href="mailto:commerce@wikit.ai">commerce@wikit.ai</a></li>
+</ul>
+
+<h3>Installation:</h3>
+<ol>
+    <li>Simple configuration via the GLPI administration interface</li>
+    <li>Enter your organization slug and LLM app slug</li>
+    <li>Customize appearance to match your brand</li>
+</ol>
+
+<p><strong>Empower your users with an intelligent assistant that's always there when they need it!</strong></p>]]></en>
+            <fr><![CDATA[<p>Wikit Semantics Chat intègre un assistant conversationnel IA directement dans votre interface GLPI, accessible sur toutes les pages. Vos équipes bénéficient d'un support instantané et intelligent pour répondre à leurs questions et les guider dans leurs tâches quotidiennes.</p>
+
+<h3>Fonctionnalités clés :</h3>
+<ul>
+    <li><strong>Disponibilité 24/7 :</strong> Assistant IA toujours présent, accessible depuis n'importe quelle page GLPI</li>
+    <li><strong>Intelligence contextuelle :</strong> Exploitation de votre base de connaissances et de vos process</li>
+    <li><strong>Conversation naturelle :</strong> Interface de chat intuitive pour poser vos questions en langage naturel</li>
+</ul>
+
+<h3>Bénéfices :</h3>
+<ul>
+    <li>Réponses instantanées sans quitter GLPI</li>
+    <li>Réduction de la charge de support pour vos équipes</li>
+    <li>Autonomie et onboarding accélérés des utilisateurs</li>
+    <li>Intégration fluide dans votre workflow existant</li>
+</ul>
+
+<h3>Prérequis :</h3>
+<p><strong>Licence Wikit Semantics Chat requise :</strong> Ce plugin nécessite une souscription à Wikit Semantics Chat pour fonctionner. Vous devez être client Wikit pour bénéficier de ce service.</p>
+
+<p>Pour obtenir une licence ou une démonstration :</p>
+<ul>
+    <li><a href="https://www.wikit.ai" target="_blank">https://www.wikit.ai</a></li>
+    <li><a href="mailto:commerce@wikit.ai">commerce@wikit.ai</a></li>
+</ul>
+
+<h3>Installation :</h3>
+<ol>
+    <li>Configuration simple via l'interface d'administration GLPI</li>
+    <li>Renseignez votre slug d'organisation et slug d'application LLM</li>
+    <li>Personnalisez l'apparence selon votre charte graphique</li>
+</ol>
+
+<p><strong>Offrez à vos utilisateurs un assistant intelligent toujours là quand ils en ont besoin !</strong></p>]]></fr>
         </long>
     </description>
-    <homepage>https://github.com/wikitai/GLPI-Semantics-Chat</homepage>
+    <homepage>https://wikit.ai</homepage>
     <download>https://github.com/wikitai/GLPI-Semantics-Chat/releases</download>
     <issues>https://github.com/wikitai/GLPI-Semantics-Chat/issues</issues>
-    <readme>https://github.com/wikitai/GLPI-Semantics-Chat#readme</readme>
+    <readme>https://github.com/wikit-ai/GLPI-Semantics/blob/main/README.md</readme>
     <authors>
-        <author>Wikit SAS</author>
+        <author>Wikit Development Team</author>
     </authors>
     <versions>
         <version>
@@ -59,6 +105,7 @@
             <tag>assistant</tag>
             <tag>help</tag>
             <tag>support</tag>
+            <tag>Wikit</tag>
         </en>
         <fr>
             <tag>IA</tag>
@@ -66,6 +113,12 @@
             <tag>assistant</tag>
             <tag>aide</tag>
             <tag>support</tag>
+            <tag>Wikit</tag>
         </fr>
     </tags>
+    <screenshots>
+		<screenshot>https://raw.githubusercontent.com/wikit-ai/GLPI-Semantics-Chat/main/screenshots/config.png</screenshot>
+		<screenshot>https://raw.githubusercontent.com/wikit-ai/GLPI-Semantics-Chat/main/screenshots/idle.png</screenshot>
+		<screenshot>https://raw.githubusercontent.com/wikit-ai/GLPI-Semantics-Chat/main/screenshots/open.png</screenshot>
+	</screenshots>
 </root>
