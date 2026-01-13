@@ -1,0 +1,129 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+          coverage: none
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Install dependencies (production)
+        run: composer install --prefer-dist --no-dev --no-progress --optimize-autoloader
+
+      - name: Generate MO files
+        run: |
+          for po_file in locales/*.po; do
+            if [ -f "$po_file" ]; then
+              mo_file="${po_file%.po}.mo"
+              msgfmt -o "$mo_file" "$po_file" || true
+            fi
+          done
+
+      - name: Debug repo contents
+        run: ls -la
+
+      - name: Create release archives
+        run: |
+          VERSION=${{ steps.get_version.outputs.VERSION }}
+
+          # Create a temporary folder for the archive
+          mkdir release_tmp
+
+          # Copy all repo files (excluding previous archives and .git) into a folder named "wikitsemanticschat" inside the temp folder
+          mkdir release_tmp/wikitsemanticschat
+          rsync -av --progress . release_tmp/wikitsemanticschat \
+            --exclude "wikitsemanticschat-*.tar.gz" \
+            --exclude "wikitsemanticschat-*.zip" \
+            --exclude "wikitsemanticschat-*.tar.bz2" \
+            --exclude ".git" \
+            --exclude ".github" \
+            --exclude "tools" \
+            --exclude "vendor/bin" \
+            --exclude "vendor/squizlabs" \
+            --exclude "vendor/glpi-project" \
+            --exclude ".phpcs.xml.dist" \
+            --exclude "README.md" \
+            --exclude "CHANGELOG.md" \
+            --exclude "AUDIT_REPORT.md" \
+            --exclude "CORRECTIONS_SUMMARY.md"
+
+          # Create a tar.gz archive
+          tar -czf wikitsemanticschat-${VERSION}.tar.gz -C release_tmp wikitsemanticschat
+
+          # Create a tar.bz2 archive
+          tar -cjf wikitsemanticschat-${VERSION}.tar.bz2 -C release_tmp wikitsemanticschat
+
+          # Create a zip archive
+          cd release_tmp
+          zip -r ../wikitsemanticschat-${VERSION}.zip wikitsemanticschat
+          cd ..
+
+          # Verify that the archives have been created
+          ls -lh wikitsemanticschat-*.tar.gz
+          ls -lh wikitsemanticschat-*.tar.bz2
+          ls -lh wikitsemanticschat-*.zip
+
+          # Remove the temporary folder
+          rm -rf release_tmp
+
+      - name: Generate release notes from CHANGELOG.md
+        id: release_notes
+        run: |
+          # Read CHANGELOG.md or fallback to default text
+          if [ -f CHANGELOG.md ]; then
+            NOTES=$(cat CHANGELOG.md)
+          else
+            NOTES="## Wikit Semantics Chat ${{ steps.get_version.outputs.VERSION }}
+
+            ### Installation
+
+            1. Download \`wikitsemanticschat-${{ steps.get_version.outputs.VERSION }}.tar.bz2\`
+            2. Extract to your GLPI plugins directory
+            3. Enable the plugin in GLPI Setup > Plugins
+            4. Configure in Setup > Plugins > Wikit Semantics Chat
+
+            ### Requirements
+
+            - GLPI >= 11.0.0
+            - PHP >= 8.2"
+          fi
+          # Set output safely for multi-line content
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+          echo "$NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Wikit Semantics Chat ${{ steps.get_version.outputs.VERSION }}
+          body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
+          files: |
+            wikitsemanticschat-${{ steps.get_version.outputs.VERSION }}.tar.gz
+            wikitsemanticschat-${{ steps.get_version.outputs.VERSION }}.tar.bz2
+            wikitsemanticschat-${{ steps.get_version.outputs.VERSION }}.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

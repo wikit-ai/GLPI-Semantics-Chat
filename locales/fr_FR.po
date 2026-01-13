@@ -1,0 +1,78 @@
+# French translations for GLPI Plugin - Semantics Chat.
+# Copyright (C) 2025 Wikit SAS
+# This file is distributed under the Apache License 2.0.
+# Wikit Development Team <dev@wikit.ai>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI Plugin - Semantics Chat 2.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/wikitai/GLPI-Semantics-Chat/issues\n"
+"POT-Creation-Date: 2025-01-01 00:00+0000\n"
+"PO-Revision-Date: 2025-01-01 00:00+0000\n"
+"Last-Translator: Wikit Development Team <dev@wikit.ai>\n"
+"Language-Team: French <fr@li.org>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/Config.php
+msgid "Semantics Chat Configuration"
+msgstr "Configuration Semantics Chat"
+
+#: src/Config.php
+msgid "Organization Slug"
+msgstr "Slug de l'organisation"
+
+#: src/Config.php
+msgid "LLM App Slug"
+msgstr "Slug de l'application LLM"
+
+#: src/Config.php
+msgid "Button Color"
+msgstr "Couleur du bouton"
+
+#: src/Config.php
+msgid "Button Tooltip"
+msgstr "Infobulle du bouton"
+
+#: src/Config.php
+msgid "Need help?"
+msgstr "Besoin d'aide ?"
+
+#: src/Config.php
+msgid "Button Icon URL"
+msgstr "URL de l'icone du bouton"
+
+#: src/Config.php
+msgid "Leave empty to use default icon"
+msgstr "Laisser vide pour utiliser l'icone par defaut"
+
+#: src/Config.php
+msgid "Button Width"
+msgstr "Largeur du bouton"
+
+#: src/Config.php
+msgid "Button Height"
+msgstr "Hauteur du bouton"
+
+#: src/Config.php
+msgid "Position"
+msgstr "Position"
+
+#: src/Config.php
+msgid "Right"
+msgstr "Droite"
+
+#: src/Config.php
+msgid "Left"
+msgstr "Gauche"
+
+#: src/Config.php
+msgid "Bottom"
+msgstr "Bas"
+
+#: src/Profile.php
+msgid "Semantics Chat"
+msgstr "Semantics Chat"

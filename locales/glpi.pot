@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025 Wikit SAS
+# This file is distributed under the Apache License 2.0.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI Plugin - Semantics Chat 2.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/wikitai/GLPI-Semantics-Chat/issues\n"
+"POT-Creation-Date: 2025-01-01 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/Config.php
+msgid "Semantics Chat Configuration"
+msgstr ""
+
+#: src/Config.php
+msgid "Organization Slug"
+msgstr ""
+
+#: src/Config.php
+msgid "LLM App Slug"
+msgstr ""
+
+#: src/Config.php
+msgid "Custom Domain"
+msgstr ""
+
+#: src/Config.php
+msgid "Leave empty to use default: https://semantics-chat.wikit.ai"
+msgstr ""
+
+#: src/Config.php
+msgid "Button Color"
+msgstr ""
+
+#: src/Config.php
+msgid "Button Tooltip"
+msgstr ""
+
+#: src/Config.php
+msgid "Need help?"
+msgstr ""
+
+#: src/Config.php
+msgid "Button Icon URL"
+msgstr ""
+
+#: src/Config.php
+msgid "Leave empty to use default icon"
+msgstr ""
+
+#: src/Config.php
+msgid "Button Width"
+msgstr ""
+
+#: src/Config.php
+msgid "Button Height"
+msgstr ""
+
+#: src/Config.php
+msgid "Position"
+msgstr ""
+
+#: src/Config.php
+msgid "Right"
+msgstr ""
+
+#: src/Config.php
+msgid "Left"
+msgstr ""
+
+#: src/Config.php
+msgid "Bottom"
+msgstr ""
+
+#: src/Config.php
+msgid "Custom Texts"
+msgstr ""
+
+#: src/Config.php
+msgid "Description Text"
+msgstr ""
+
+#: src/Config.php
+msgid "Home Description Text"
+msgstr ""
+
+#: src/Config.php
+msgid "Close Button Text"
+msgstr ""
+
+#: src/Config.php
+msgid "Open in New Window Text"
+msgstr ""
+
+#: src/Config.php
+msgid "Maximize Text"
+msgstr ""
+
+#: src/Config.php
+msgid "Minimize Text"
+msgstr ""
+
+#: src/Profile.php
+msgid "Semantics Chat"
+msgstr ""

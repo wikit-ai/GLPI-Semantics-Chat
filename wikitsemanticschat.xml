@@ -1,0 +1,71 @@
+<root>
+    <name>Wikit Semantics Chat</name>
+    <key>wikitsemanticschat</key>
+    <state>stable</state>
+    <logo>https://raw.githubusercontent.com/wikitai/GLPI-Semantics-Chat/main/wikitsemanticschat.png</logo>
+    <description>
+        <short>
+            <en><![CDATA[Inject Semantics Chat AI assistant widget into GLPI]]></en>
+            <fr><![CDATA[Injecte le widget assistant IA Semantics Chat dans GLPI]]></fr>
+        </short>
+        <long>
+            <en><![CDATA[
+                This plugin integrates Semantics Chat, an AI-powered chatbot assistant, into your GLPI interface.
+                It helps technicians by providing intelligent assistance directly within GLPI.
+
+                Features:
+                - AI chatbot widget on all GLPI pages
+                - Customizable appearance (color, position, icon)
+                - User context awareness (passes user information to the chatbot)
+                - Easy configuration through GLPI admin interface
+                - GLPI 11 compatible with modern architecture
+            ]]></en>
+            <fr><![CDATA[
+                Ce plugin integre Semantics Chat, un assistant chatbot propulse par l'IA, dans votre interface GLPI.
+                Il aide les techniciens en fournissant une assistance intelligente directement dans GLPI.
+
+                Fonctionnalites :
+                - Widget chatbot IA sur toutes les pages GLPI
+                - Apparence personnalisable (couleur, position, icone)
+                - Contexte utilisateur (transmet les informations utilisateur au chatbot)
+                - Configuration facile via l'interface d'administration GLPI
+                - Compatible GLPI 11 avec architecture moderne
+            ]]></fr>
+        </long>
+    </description>
+    <homepage>https://github.com/wikitai/GLPI-Semantics-Chat</homepage>
+    <download>https://github.com/wikitai/GLPI-Semantics-Chat/releases</download>
+    <issues>https://github.com/wikitai/GLPI-Semantics-Chat/issues</issues>
+    <readme>https://github.com/wikitai/GLPI-Semantics-Chat#readme</readme>
+    <authors>
+        <author>Wikit SAS</author>
+    </authors>
+    <versions>
+        <version>
+            <num>2.0.0</num>
+            <compatibility>~11.0</compatibility>
+            <download_url>https://github.com/wikitai/GLPI-Semantics-Chat/releases/download/2.0.0/wikitsemanticschat-2.0.0.tar.bz2</download_url>
+        </version>
+    </versions>
+    <langs>
+        <lang>en_GB</lang>
+        <lang>fr_FR</lang>
+    </langs>
+    <license>Apache-2.0</license>
+    <tags>
+        <en>
+            <tag>AI</tag>
+            <tag>chatbot</tag>
+            <tag>assistant</tag>
+            <tag>help</tag>
+            <tag>support</tag>
+        </en>
+        <fr>
+            <tag>IA</tag>
+            <tag>chatbot</tag>
+            <tag>assistant</tag>
+            <tag>aide</tag>
+            <tag>support</tag>
+        </fr>
+    </tags>
+</root>
