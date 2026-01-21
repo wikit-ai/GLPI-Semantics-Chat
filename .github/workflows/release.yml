@@ -21,7 +21,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.0'
           tools: composer:v2
           coverage: none
 
@@ -106,8 +106,8 @@ jobs:
 
             ### Requirements
 
-            - GLPI >= 11.0.0
-            - PHP >= 8.2"
+            - GLPI >= 10.0.0
+            - PHP >= 8.0"
           fi
           # Set output safely for multi-line content
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
