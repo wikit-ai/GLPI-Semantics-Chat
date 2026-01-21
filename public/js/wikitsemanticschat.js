@@ -20,16 +20,22 @@ class WikitSemanticsChatWidget {
     async init() {
         try {
             // Fetch configuration from GLPI backend
-            const response = await fetch(
-                CFG_GLPI.root_doc + '/plugins/wikitsemanticschat/ajax/config.php',
-                {
-                    method: 'GET',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                    credentials: 'same-origin',
-                }
-            );
+            // Use plugin base directory from global variable set by PHP
+            const pluginBase = window.WIKITSEMANTICSCHAT_WEBDIR || '';
+            if (!pluginBase) {
+                console.error('Wikit Semantics Chat: Plugin base directory not defined');
+                return;
+            }
+
+            const configUrl = pluginBase + '/ajax/config.php';
+
+            const response = await fetch(configUrl, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                credentials: 'same-origin',
+            });
 
             if (!response.ok) {
                 console.warn('Wikit Semantics Chat: Failed to fetch configuration');
@@ -46,7 +52,7 @@ class WikitSemanticsChatWidget {
             this.config = data.config;
             this.userInfo = data.userInfo || {};
 
-            // Load the Semantics Chat script
+            // Load the Wikit Semantics Chat script
             await this.loadScript(data.scriptUrl);
 
             // Initialize the chat widget
@@ -57,7 +63,7 @@ class WikitSemanticsChatWidget {
     }
 
     /**
-     * Load the Semantics Chat embed script
+     * Load the Wikit Semantics Chat embed script
      * @param {string} scriptUrl - URL of the chat embed script
      * @returns {Promise}
      */
@@ -111,8 +117,6 @@ class WikitSemanticsChatWidget {
 
         // Initialize the chat widget
         this.chatApi = wrapSemanticsChat(widgetConfig);
-
-        console.log('Wikit Semantics Chat: Widget initialized successfully');
     }
 
     /**
@@ -122,24 +126,6 @@ class WikitSemanticsChatWidget {
     setCustomParams(params) {
         if (this.chatApi && typeof this.chatApi.setCustomParams === 'function') {
             this.chatApi.setCustomParams(params);
-        }
-    }
-
-    /**
-     * Open the chat widget
-     */
-    open() {
-        if (this.chatApi && typeof this.chatApi.open === 'function') {
-            this.chatApi.open();
-        }
-    }
-
-    /**
-     * Close the chat widget
-     */
-    close() {
-        if (this.chatApi && typeof this.chatApi.close === 'function') {
-            this.chatApi.close();
         }
     }
 }

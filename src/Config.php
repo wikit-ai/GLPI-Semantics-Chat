@@ -11,7 +11,7 @@ use Html;
 use Session;
 
 /**
- * Configuration class for Semantics Chat plugin
+ * Configuration class for Wikit Semantics Chat plugin
  *
  */
 class Config extends CommonDBTM
@@ -24,8 +24,6 @@ class Config extends CommonDBTM
 
     /**
      * Get the singleton configuration instance
-     *
-     * @since 2.0.0
      *
      * @param bool $refresh Whether to refresh from database
      * @return self Configuration instance
@@ -44,8 +42,6 @@ class Config extends CommonDBTM
     /**
      * Get the localized name of the configuration type
      *
-     * @since 2.0.0
-     *
      * @param int $nb Number of items (for plural form)
      * @return string Localized type name
      */
@@ -56,8 +52,6 @@ class Config extends CommonDBTM
     /**
      * Check if current user can create configuration
      *
-     * @since 2.0.0
-     *
      * @return bool True if user has UPDATE right
      */
    public static function canCreate(): bool {
@@ -66,8 +60,6 @@ class Config extends CommonDBTM
 
     /**
      * Check if current user can view configuration
-     *
-     * @since 2.0.0
      *
      * @return bool True if user has READ right
      */
@@ -78,8 +70,6 @@ class Config extends CommonDBTM
     /**
      * Check if current user can update configuration
      *
-     * @since 2.0.0
-     *
      * @return bool True if user has UPDATE right
      */
    public static function canUpdate(): bool {
@@ -88,8 +78,6 @@ class Config extends CommonDBTM
 
     /**
      * Define tabs available for the configuration form
-     *
-     * @since 2.0.0
      *
      * @param array $options Options
      * @return array Array of tabs
@@ -103,8 +91,6 @@ class Config extends CommonDBTM
     /**
      * Check if this is a new item (always false for singleton config)
      *
-     * @since 2.0.0
-     *
      * @return bool Always false as config uses singleton pattern
      */
    public function isNewItem(): bool {
@@ -113,8 +99,6 @@ class Config extends CommonDBTM
 
     /**
      * Display the configuration form
-     *
-     * @since 2.0.0
      *
      * @param int   $ID      Item ID
      * @param array $options Display options
@@ -253,8 +237,6 @@ class Config extends CommonDBTM
     /**
      * Get JavaScript configuration for the chat widget
      *
-     * @since 2.0.0
-     *
      * @return array Configuration array for JavaScript widget
      */
    public function getJsConfig(): array {
@@ -308,11 +290,9 @@ class Config extends CommonDBTM
    }
 
     /**
-     * Get the script URL for the Semantics Chat embed
+     * Get the script URL for the Wikit Semantics Chat embed
      *
-     * @since 2.0.0
-     *
-     * @return string URL of the Semantics Chat embed script
+     * @return string URL of the Wikit Semantics Chat embed script
      */
    public function getScriptUrl(): string {
        $url = 'https://semantics-chat.wikit.ai/chat-embed.js';
@@ -327,8 +307,6 @@ class Config extends CommonDBTM
 
     /**
      * Check if the configuration is valid for displaying the chat
-     *
-     * @since 2.0.0
      *
      * @return bool True if organization slug is configured
      */

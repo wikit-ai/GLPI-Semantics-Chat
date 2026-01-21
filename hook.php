@@ -21,8 +21,8 @@ function plugin_wikitsemanticschat_check_prerequisites(): bool {
        return false;
    }
 
-   if (version_compare(PHP_VERSION, '8.2.0', 'lt')) {
-       echo 'This plugin requires PHP >= 8.2.0';
+   if (version_compare(PHP_VERSION, '8.0.0', 'lt')) {
+       echo 'This plugin requires PHP >= 8.0.0';
        return false;
    }
 
@@ -56,7 +56,7 @@ function plugin_wikitsemanticschat_install(): bool {
 
     // Create config table if not exists
    if (!$DB->tableExists('glpi_plugin_wikitsemanticschat_configs')) {
-       $DB->runFile(PLUGIN_WIKITSEMANTICSCHAT_DIR . '/install/sql/empty-2.0.0.sql');
+       $DB->runFile(PLUGIN_WIKITSEMANTICSCHAT_DIR . '/install/sql/empty-1.0.0.sql');
    }
 
     // Add audit fields if they don't exist (for upgrades)
@@ -97,6 +97,7 @@ function plugin_wikitsemanticschat_install(): bool {
  * Plugin uninstall process
  *
  * Removes database tables and plugin rights
+ *
  *
  * @return bool True on success
  */

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="GLPI Semantics Chat Coding Standard">
-    <description>Coding standard for Semantics Chat GLPI plugin</description>
+<ruleset name="GLPI Wikit Semantics Chat Coding Standard">
+    <description>Coding standard for Wikit Semantics Chat GLPI plugin</description>
 
     <!-- Files to check -->
     <file>.</file>

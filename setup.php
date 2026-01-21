@@ -8,13 +8,14 @@ use Glpi\Plugin\Hooks;
 use GlpiPlugin\Wikitsemanticschat\Config;
 use GlpiPlugin\Wikitsemanticschat\Profile;
 
-define('PLUGIN_WIKITSEMANTICSCHAT_VERSION', '2.0.0');
+define('PLUGIN_WIKITSEMANTICSCHAT_VERSION', '1.0.0');
 // Minimal GLPI version, inclusive
-define('PLUGIN_WIKITSEMANTICSCHAT_MIN_GLPI_VERSION', '11.0.0');
+define('PLUGIN_WIKITSEMANTICSCHAT_MIN_GLPI_VERSION', '10.0.0');
 // Maximum GLPI version, exclusive
-define('PLUGIN_WIKITSEMANTICSCHAT_MAX_GLPI_VERSION', '11.99.99');
+define('PLUGIN_WIKITSEMANTICSCHAT_MAX_GLPI_VERSION', '10.99.99');
 
 define('PLUGIN_WIKITSEMANTICSCHAT_DIR', Plugin::getPhpDir('wikitsemanticschat'));
+define('PLUGIN_WIKITSEMANTICSCHAT_WEBDIR', Plugin::getWebDir('wikitsemanticschat'));
 
 /**
  * Init hooks of the plugin.
@@ -34,7 +35,9 @@ function plugin_init_wikitsemanticschat(): void {
 
     // Add JavaScript on all pages for logged-in users only
    if (Session::getLoginUserID()) {
+       // Load plugin configuration and main script
        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['wikitsemanticschat'] = [
+           'public/js/config.js.php',
            'public/js/wikitsemanticschat.js'
        ];
 
@@ -72,7 +75,7 @@ function plugin_version_wikitsemanticschat(): array {
                 'max' => PLUGIN_WIKITSEMANTICSCHAT_MAX_GLPI_VERSION,
             ],
             'php' => [
-                'min' => '8.2',
+                'min' => '7.4',
             ],
         ],
     ];

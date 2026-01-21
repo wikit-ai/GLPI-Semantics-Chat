@@ -52,7 +52,7 @@ This plugin enables users to interact with an AI assistant that leverages your o
 
 ### Manual Installation
 
-1. Download the latest release from [GitHub Releases](https://github.com/wikitai/GLPI-Semantics-Chat/releases)
+1. Download release 1.0.0 from [GitHub Releases](https://github.com/wikitai/GLPI-Semantics-Chat/releases/tag/1.0.0)
 2. Extract the archive to your GLPI plugins directory:
    ```bash
    cd /path/to/glpi/plugins
@@ -67,7 +67,7 @@ This plugin enables users to interact with an AI assistant that leverages your o
 
 ## Usage
 
-Once configured and activated, the Semantics Chat widget will appear automatically on all GLPI pages for authenticated users.
+Once configured and activated, the Wikit Semantics Chat widget will appear automatically on all GLPI pages for authenticated users.
 
 ### How It Works
 
@@ -118,7 +118,7 @@ Wikit Semantics Chat provides enterprise-grade AI conversational assistants for 
 1. Verify your organization slug is correct
 2. Check that `https://semantics-chat.wikit.ai` is accessible
 3. Look for errors in browser console
-4. Contact Semantics Chat support for organization issues
+4. Contact Wikit Semantics Chat support for organization issues
 
 ## Contributing
 

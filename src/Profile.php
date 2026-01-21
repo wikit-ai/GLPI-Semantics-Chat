@@ -14,7 +14,7 @@ use ProfileRight;
 use Session;
 
 /**
- * Profile management for Semantics Chat plugin
+ * Profile management for Wikit Semantics Chat plugin
  *
  */
 class Profile extends \Profile
@@ -24,8 +24,6 @@ class Profile extends \Profile
 
     /**
      * Get tab name for item
-     *
-     * @since 2.0.0
      *
      * @param CommonGLPI $item         Item instance
      * @param int        $withtemplate Template flag
@@ -42,8 +40,6 @@ class Profile extends \Profile
 
     /**
      * Display tab content for item
-     *
-     * @since 2.0.0
      *
      * @param CommonGLPI $item         Item instance
      * @param int        $tabnum       Tab number
@@ -69,8 +65,6 @@ class Profile extends \Profile
     /**
      * Create first access rights for a profile
      *
-     * @since 2.0.0
-     *
      * @param int $profileId Profile ID
      * @return void
      */
@@ -84,8 +78,6 @@ class Profile extends \Profile
 
     /**
      * Add default profile rights
-     *
-     * @since 2.0.0
      *
      * @param int   $profileId    Profile ID
      * @param array $rights       Rights to add (name => value)
@@ -135,8 +127,6 @@ class Profile extends \Profile
     /**
      * Show profile form for plugin rights management
      *
-     * @since 2.0.0
-     *
      * @param int  $profiles_id Profile ID
      * @param bool $openform    Whether to open form tag
      * @param bool $closeform   Whether to close form tag
@@ -176,8 +166,6 @@ class Profile extends \Profile
     /**
      * Get all plugin rights
      *
-     * @since 2.0.0
-     *
      * @param bool $all Get all rights or only visible ones
      * @return array Array of rights definitions
      */
@@ -196,8 +184,6 @@ class Profile extends \Profile
 
     /**
      * Initialize profiles and migrate if necessary
-     *
-     * @since 2.0.0
      *
      * @return void
      */
@@ -240,8 +226,6 @@ class Profile extends \Profile
 
     /**
      * Remove plugin rights from current session
-     *
-     * @since 2.0.0
      *
      * @return void
      */

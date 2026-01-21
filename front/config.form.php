@@ -4,9 +4,11 @@
  * Copyright (C) 2026 by the Wikit Development Team.
  */
 
+include ('../../../inc/includes.php');
+
 use GlpiPlugin\Wikitsemanticschat\Config;
 
-// Check rights
+Session::checkLoginUser();
 Session::checkRight('config', UPDATE);
 
 $config = new Config();

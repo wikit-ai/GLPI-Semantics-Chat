@@ -4,6 +4,8 @@
  * Copyright (C) 2026 by the Wikit Development Team.
  */
 
+include ('../../../inc/includes.php');
+
 use GlpiPlugin\Wikitsemanticschat\Config;
 
 // Set JSON content type header
