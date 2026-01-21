@@ -32,7 +32,7 @@ This plugin enables users to interact with an AI assistant that leverages your o
 
 | Plugin Version | GLPI Version | PHP Version | Status |
 |---------------|--------------|-------------|--------|
-| 1.x.x | 10.0.0+ | 8.0+ | Maintenance only |
+| 1.x.x | 10.0.0+ | 7.4+ | Maintenance only |
 | 2.x.x | 11.0.0+ | 8.2+ | Active development |
 
 ### Prerequisites

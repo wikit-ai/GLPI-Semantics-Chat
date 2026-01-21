@@ -16,7 +16,7 @@
         "source": "https://github.com/wikitai/GLPI-Semantics-Chat"
     },
     "require": {
-        "php": ">=8.0.0"
+        "php": ">=7.4.0"
     },
     "require-dev": {
         "glpi-project/coding-standard": "^0.7",

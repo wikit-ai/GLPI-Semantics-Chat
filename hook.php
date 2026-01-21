@@ -21,8 +21,8 @@ function plugin_wikitsemanticschat_check_prerequisites(): bool {
        return false;
    }
 
-   if (version_compare(PHP_VERSION, '8.0.0', 'lt')) {
-       echo 'This plugin requires PHP >= 8.0.0';
+   if (version_compare(PHP_VERSION, '7.4.0', 'lt')) {
+       echo 'This plugin requires PHP >= 7.4.0';
        return false;
    }
 
