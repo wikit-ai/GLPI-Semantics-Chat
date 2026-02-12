@@ -8,7 +8,7 @@ use Glpi\Plugin\Hooks;
 use GlpiPlugin\Wikitsemanticschat\Config;
 use GlpiPlugin\Wikitsemanticschat\Profile;
 
-define('PLUGIN_WIKITSEMANTICSCHAT_VERSION', '1.0.0');
+define('PLUGIN_WIKITSEMANTICSCHAT_VERSION', '1.0.1');
 // Minimal GLPI version, inclusive
 define('PLUGIN_WIKITSEMANTICSCHAT_MIN_GLPI_VERSION', '10.0.0');
 // Maximum GLPI version, exclusive
@@ -33,15 +33,8 @@ function plugin_init_wikitsemanticschat(): void {
        return;
    }
 
-    // Add JavaScript on all pages for logged-in users only
+   // Register plugin classes (always needed for profile management)
    if (Session::getLoginUserID()) {
-       // Load plugin configuration and main script
-       $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['wikitsemanticschat'] = [
-           'public/js/config.js.php',
-           'public/js/wikitsemanticschat.js'
-       ];
-
-       // Register plugin classes
        Plugin::registerClass(Config::class);
        Plugin::registerClass(
            Profile::class,
@@ -49,9 +42,17 @@ function plugin_init_wikitsemanticschat(): void {
        );
 
        // Configuration page in Setup > Plugins
-      if (Session::haveRight('config', UPDATE)) {
-         $PLUGIN_HOOKS['config_page']['wikitsemanticschat'] = 'front/config.form.php';
-      }
+       if (Session::haveRight('config', UPDATE)) {
+           $PLUGIN_HOOKS['config_page']['wikitsemanticschat'] = 'front/config.form.php';
+       }
+
+       // Add JavaScript only for users with READ right
+       if (Session::haveRight('plugin_wikitsemanticschat_config', READ)) {
+           $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['wikitsemanticschat'] = [
+               'public/js/config.js.php',
+               'public/js/wikitsemanticschat.js'
+           ];
+       }
    }
 }
 
