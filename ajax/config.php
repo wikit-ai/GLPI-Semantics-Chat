@@ -19,6 +19,15 @@ if (!$userId) {
     exit;
 }
 
+// Check if user has READ right on the plugin
+if (!Session::haveRight('plugin_wikitsemanticschat_config', READ)) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'Access denied',
+    ]);
+    exit;
+}
+
 // Get configuration
 $config = Config::getConfig();
 

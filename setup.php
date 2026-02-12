@@ -32,8 +32,8 @@ function plugin_init_wikitsemanticschat(): void {
        return;
    }
 
-    // Add JavaScript on all pages for logged-in users only
-   if (Session::getLoginUserID()) {
+    // Add JavaScript on all pages for users with READ right only
+   if (Session::getLoginUserID() && Session::haveRight('plugin_wikitsemanticschat_config', READ)) {
        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['wikitsemanticschat'] = [
            'public/js/wikitsemanticschat.js'
        ];
