@@ -88,19 +88,19 @@
     </authors>
     <versions>
         <version>
-            <num>2.0.2</num>
-            <compatibility>~11.0</compatibility>
-            <download_url>https://github.com/wikit-ai/GLPI-Semantics-Chat/releases/download/v2.0.2/wikitsemanticschat-2.0.2.tar.bz2</download_url>
-        </version>
-        <version>
             <num>2.0.1</num>
-            <compatibility>~11.0</compatibility>
+            <compatibility>~11.0.0</compatibility>
             <download_url>https://github.com/wikit-ai/GLPI-Semantics-Chat/releases/download/v2.0.1/wikitsemanticschat-2.0.1.tar.bz2</download_url>
         </version>
         <version>
             <num>2.0.0</num>
             <compatibility>~11.0.0</compatibility>
             <download_url>https://github.com/wikit-ai/GLPI-Semantics-Chat/releases/download/v2.0.0/wikitsemanticschat-2.0.0.tar.bz2</download_url>
+        </version>
+        <version>
+            <num>1.0.2</num>
+            <compatibility>~10.0.0</compatibility>
+            <download_url>https://github.com/wikit-ai/GLPI-Semantics-Chat/releases/download/v1.0.2/wikitsemanticschat-1.0.2.tar.bz2</download_url>
         </version>
         <version>
             <num>1.0.1</num>
