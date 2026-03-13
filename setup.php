@@ -8,7 +8,7 @@ use Glpi\Plugin\Hooks;
 use GlpiPlugin\Wikitsemanticschat\Config;
 use GlpiPlugin\Wikitsemanticschat\Profile;
 
-define('PLUGIN_WIKITSEMANTICSCHAT_VERSION', '1.0.1');
+define('PLUGIN_WIKITSEMANTICSCHAT_VERSION', '1.0.2');
 // Minimal GLPI version, inclusive
 define('PLUGIN_WIKITSEMANTICSCHAT_MIN_GLPI_VERSION', '10.0.0');
 // Maximum GLPI version, exclusive
@@ -33,14 +33,21 @@ function plugin_init_wikitsemanticschat(): void {
        return;
    }
 
-   // Register plugin classes (always needed for profile management)
-   if (Session::getLoginUserID()) {
-       Plugin::registerClass(Config::class);
-       Plugin::registerClass(
-           Profile::class,
-           ['addtabon' => 'Profile']
-       );
+   Plugin::registerClass(Config::class);
+   Plugin::registerClass(
+       Profile::class,
+       ['addtabon' => 'Profile']
+   );
 
+   // Ensure plugin rights are loaded in session (GLPI may not load them for helpdesk profiles)
+   if (Session::getLoginUserID()
+       && isset($_SESSION['glpiactiveprofile']['id'])
+       && !isset($_SESSION['glpiactiveprofile']['plugin_wikitsemanticschat_config'])
+   ) {
+       Profile::initProfile();
+   }
+
+   if (Session::getLoginUserID()) {
        // Configuration page in Setup > Plugins
        if (Session::haveRight('config', UPDATE)) {
            $PLUGIN_HOOKS['config_page']['wikitsemanticschat'] = 'front/config.form.php';
