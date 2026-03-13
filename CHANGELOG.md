@@ -2,6 +2,18 @@
 
 All notable changes to the Wikit Semantics Chat plugin will be documented in this file.
 
+## [2.0.2] - 2026-03-13
+
+### Added
+- Support for Simplified interface ex : Self-service profile
+
+
+## [2.0.1] - 2026-02-14
+
+### Bug fix
+- Fix a bug that ignored read and write permissions on profiles.
+
+
 ## [2.0.0] - 2026-01-13
 
 ### Added
