@@ -2,6 +2,12 @@
 
 All notable changes to the Wikit Semantics Chat plugin will be documented in this file.
 
+## [2.0.3] - 2026-05-09
+
+### Fix
+- Fix multiple instances of bubble.
+
+
 ## [2.0.2] - 2026-03-13
 
 ### Added
