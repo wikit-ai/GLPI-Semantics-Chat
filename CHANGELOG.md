@@ -2,10 +2,16 @@
 
 All notable changes to the Wikit Semantics Chat plugin will be documented in this file.
 
+## [1.0.3] - 2026-05-12
+
+### Fix
+- Fix multiple instances of bubble.
+
+
 ## [1.0.2] - 2026-03-13
 
 ### Added
-- Support for Simplified interface ex : Self-service profile
+- Support for Simplified interface ex : Self-service profile.
 
 
 ## [1.0.1] - 2026-02-14

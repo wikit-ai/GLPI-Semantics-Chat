@@ -12,12 +12,19 @@ class WikitSemanticsChatWidget {
         this.chatApi = null;
         this.config = null;
         this.scriptLoaded = false;
+        this.initialized = false;
     }
 
     /**
      * Initialize the widget with configuration from GLPI
      */
     async init() {
+        if (this.initialized) {
+            return;
+        }
+
+        this.initialized = true;
+
         try {
             // Fetch configuration from GLPI backend
             // Use plugin base directory from global variable set by PHP
@@ -74,10 +81,29 @@ class WikitSemanticsChatWidget {
                 return;
             }
 
+            const existingScript = document.querySelector('script[data-wikit-semantics-chat="true"]');
+            if (existingScript) {
+                existingScript.addEventListener('load', () => {
+                    this.scriptLoaded = true;
+                    resolve();
+                }, { once: true });
+                existingScript.addEventListener('error', () => {
+                    reject(new Error('Failed to load Wikit Semantics Chat script'));
+                }, { once: true });
+
+                if (typeof wrapSemanticsChat === 'function') {
+                    this.scriptLoaded = true;
+                    resolve();
+                }
+
+                return;
+            }
+
             const script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = scriptUrl;
             script.async = true;
+            script.dataset.wikitSemanticsChat = 'true';
 
             script.onload = () => {
                 this.scriptLoaded = true;
@@ -130,17 +156,42 @@ class WikitSemanticsChatWidget {
     }
 }
 
-// Initialize the widget when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
+function isWikitSemanticsChatMainFrame() {
+    try {
+        return window.self === window.top;
+    } catch (error) {
+        return false;
+    }
+}
+
+function initWikitSemanticsChatWidget() {
     // Check if we're in GLPI context and user is logged in
     if (typeof CFG_GLPI === 'undefined') {
         console.warn('Wikit Semantics Chat: Not in GLPI context');
         return;
     }
 
+    if (!isWikitSemanticsChatMainFrame()) {
+        return;
+    }
+
+    if (window.__WikitSemanticsChatWidgetInstance) {
+        window.WikitSemanticsChatWidget = window.__WikitSemanticsChatWidgetInstance;
+        window.WikitSemanticsChatWidget.init();
+        return;
+    }
+
     // Create global instance
     window.WikitSemanticsChatWidget = new WikitSemanticsChatWidget();
+    window.__WikitSemanticsChatWidgetInstance = window.WikitSemanticsChatWidget;
 
     // Initialize
     window.WikitSemanticsChatWidget.init();
-});
+}
+
+// Initialize the widget when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWikitSemanticsChatWidget, { once: true });
+} else {
+    initWikitSemanticsChatWidget();
+}
