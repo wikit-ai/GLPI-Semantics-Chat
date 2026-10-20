@@ -1,0 +1,59 @@
+{#
+ # -------------------------------------------------------------------------
+ # Wikit Semantics Chat plugin for GLPI
+ # -------------------------------------------------------------------------
+ #
+ # LICENSE
+ #
+ # This file is part of Wikit Semantics Chat.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License");
+ # you may not use this file except in compliance with the License.
+ # You may obtain a copy of the License at
+ #
+ #     http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS,
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ # -------------------------------------------------------------------------
+ # @copyright Copyright (C) 2026 by Wikit.
+ # @license   Apache-2.0 https://www.apache.org/licenses/LICENSE-2.0
+ # @link      https://github.com/wikit-ai/GLPI-Semantics-Chat
+ # -------------------------------------------------------------------------
+ #}
+
+{% extends 'generic_show_form.html.twig' %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% set params = params|merge({'candel': false}) %}
+{% macro unitField(name, value, label, unit) %}
+    {% import 'components/form/fields_macros.html.twig' as fields %}
+    {% set field %}
+        <div class="input-group">
+            <input type="text" class="form-control" id="%id%" name="{{ name }}" value="{{ value }}">
+            <span class="input-group-text">{{ unit }}</span>
+        </div>
+    {% endset %}
+    {{ fields.field(name, field, label) }}
+{% endmacro %}
+
+{% block form_fields %}
+    {{ fields.textField('organization_slug', item.fields['organization_slug'], __('Organization Slug', 'wikitsemanticschat')) }}
+    {{ fields.textField('llm_app_slug', item.fields['llm_app_slug'], __('LLM App Slug', 'wikitsemanticschat')) }}
+    {{ fields.colorField('color', item.fields['color']|default('#000000'), __('Button Color', 'wikitsemanticschat')) }}
+    {{ fields.textField('chat_button_tooltip', item.fields['chat_button_tooltip']|default(__('Need help?', 'wikitsemanticschat')), __('Button Tooltip', 'wikitsemanticschat')) }}
+    {{ fields.textField('chat_button_icon_url', item.fields['chat_button_icon_url'], __('Button Icon URL', 'wikitsemanticschat'), {
+        helper: __('Leave empty to use default icon', 'wikitsemanticschat'),
+        additional_attributes: {placeholder: 'https://example.com/icon.png'},
+    }) }}
+    {{ _self.unitField('chat_button_width', item.fields['chat_button_width']|default('48'), __('Button Width', 'wikitsemanticschat'), 'px') }}
+    {{ _self.unitField('chat_button_height', item.fields['chat_button_height']|default('48'), __('Button Height', 'wikitsemanticschat'), 'px') }}
+
+    {{ fields.smallTitle(__('Position', 'wikitsemanticschat'), 'ti ti-layout-bottombar') }}
+    {{ _self.unitField('position_right', item.fields['position_right']|default('1'), __('Right', 'wikitsemanticschat'), '%') }}
+    {{ _self.unitField('position_left', item.fields['position_left']|default('auto'), __('Left', 'wikitsemanticschat'), '%') }}
+    {{ _self.unitField('position_bottom', item.fields['position_bottom']|default('1'), __('Bottom', 'wikitsemanticschat'), '%') }}
+{% endblock %}

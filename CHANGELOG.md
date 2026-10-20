@@ -2,6 +2,31 @@
 
 All notable changes to the Wikit Semantics Chat plugin will be documented in this file.
 
+## [3.0.0] - 2026-10-20
+
+Versions 3.x are dedicated to GLPI 12 (2.x: GLPI 11, 1.x: GLPI 10).
+
+### Added
+- GLPI 12.0 compatibility
+
+### Changed
+- Configuration form rendered with a Twig template
+- Database table created and upgraded with GLPI migrations instead of an SQL file
+- Plugin URLs without the `/public` prefix (deprecated in GLPI 12)
+- Maximum GLPI version set to 12.0.x, consistent with the plugins directory compatibility
+- Development tooling aligned with the Teclib plugin template: php-cs-fixer, rector, phpstan, twigcs, eslint, licence headers; development files are no longer shipped in the release archives
+- Unit tests (PHPUnit, GLPI test framework): widget configuration and profile rights
+
+### Fixed
+- Homepage URL and Composer autoload namespace
+- No more `exit` in the AJAX endpoint (forbidden since GLPI 11)
+
+### Removed
+- GLPI 11 support: use the 2.x versions with GLPI 11
+- `csrf_compliant` hook, removed from GLPI 12
+- Manual prerequisites checks, replaced by the requirements declared to GLPI
+
+
 ## [2.0.3] - 2026-05-09
 
 ### Fix
