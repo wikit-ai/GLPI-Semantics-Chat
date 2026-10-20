@@ -5,3 +5,6 @@ vendor/
 composer.lock
 *.min.*
 .DS_Store
+var
+/.vscode/
+/.idea/

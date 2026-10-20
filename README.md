@@ -32,8 +32,9 @@ This plugin enables users to interact with an AI assistant that leverages your o
 
 | Plugin Version | GLPI Version | PHP Version | Status |
 |---------------|--------------|-------------|--------|
-| 1.x.x | 10.0.0+ | 8.0+ | Maintenance only |
-| 2.x.x | 11.0.0+ | 8.2+ | Active development |
+| 1.x.x | 10.0.0 - 10.9.99 | 8.0+ | Maintenance only |
+| 2.x.x | 11.0.0 - 11.99.99 | 8.2+ | Maintenance |
+| 3.x.x | 12.0.0 - 12.0.99 | 8.3+ | Active development |
 
 ### Prerequisites
 
@@ -119,6 +120,36 @@ Wikit Semantics Chat provides enterprise-grade AI conversational assistants for 
 2. Check that `https://semantics-chat.wikit.ai` is accessible
 3. Look for errors in browser console
 4. Contact Semantics Chat support for organization issues
+
+## Development
+
+The plugin follows the [GLPI plugin guidelines](https://glpi-developer-documentation.readthedocs.io/en/master/plugins/index.html)
+and the tooling of the [Teclib plugin template](https://github.com/pluginsGLPI/empty). The tools are provided by a GLPI 12
+development checkout (`composer install` and `npm ci` in GLPI), with the plugin cloned in its `plugins/` directory:
+
+```bash
+../../vendor/bin/php-cs-fixer fix          # coding standard (PER-CS)
+../../vendor/bin/rector process             # automated refactoring
+../../vendor/bin/phpstan analyse            # static analysis (level max, existing issues in phpstan-baseline.neon)
+../../vendor/bin/twigcs                     # Twig templates
+../../node_modules/.bin/eslint .            # JavaScript
+vendor/bin/licence-headers-check --fix     # licence headers (composer install in the plugin)
+```
+
+Unit tests use the GLPI test framework (PHPUnit, `Glpi\Tests\DbTestCase`) and a dedicated test database:
+
+```bash
+# In the GLPI directory, once
+php bin/console database:install --env=testing --db-name=glpitests --db-user=root --db-password=xxxx
+php bin/console plugin:install --env=testing -u glpi --force <plugin>
+php bin/console plugin:activate --env=testing <plugin>
+
+# In the plugin directory
+composer install
+../../vendor/bin/phpunit
+```
+
+The same checks run in the continuous integration (glpi-project/plugin-ci-workflows).
 
 ## Contributing
 

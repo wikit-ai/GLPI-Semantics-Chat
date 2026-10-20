@@ -1,0 +1,157 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Parameter \#1 \$input of method CommonDBTM\:\:update\(\) expects array\<string, mixed\>, array\<mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: front/config.form.php
+
+		-
+			message: '#^Parameter \#2 \$url of static method Html\:\:header\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: front/config.form.php
+
+		-
+			message: '#^Parameter \#3 \$input of method CommonDBTM\:\:check\(\) expects array\<string, mixed\>\|null, array\<mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: front/config.form.php
+
+		-
+			message: '#^Cannot access offset ''field'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Cannot access offset ''id'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Parameter \#1 \$profileId of static method GlpiPlugin\\Wikitsemanticschat\\Profile\:\:createFirstAccess\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Cannot access offset ''id'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: setup.php
+
+		-
+			message: '#^Cannot access offset ''wikitsemanticschat'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: setup.php
+
+		-
+			message: '#^Cannot access offset string on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: setup.php
+
+		-
+			message: '#^Function plugin_version_wikitsemanticschat\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: setup.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''%%'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 3
+			path: src/Config.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''px'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 2
+			path: src/Config.php
+
+		-
+			message: '#^Method GlpiPlugin\\Wikitsemanticschat\\Config\:\:defineTabs\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Config.php
+
+		-
+			message: '#^Method GlpiPlugin\\Wikitsemanticschat\\Config\:\:defineTabs\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Config.php
+
+		-
+			message: '#^Method GlpiPlugin\\Wikitsemanticschat\\Config\:\:getJsConfig\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Config.php
+
+		-
+			message: '#^Method GlpiPlugin\\Wikitsemanticschat\\Config\:\:showForm\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Config.php
+
+		-
+			message: '#^Parameter \#2 \$options of method CommonDBTM\:\:initForm\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Config.php
+
+		-
+			message: '#^Cannot access offset ''field'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 4
+			path: src/Profile.php
+
+		-
+			message: '#^Cannot access offset ''id'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Cannot access offset ''name'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Cannot access offset ''rights'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Cannot access offset \(int\|string\) on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Cannot access offset mixed on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Profile.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Method GlpiPlugin\\Wikitsemanticschat\\Profile\:\:addDefaultProfileInfos\(\) has parameter \$rights with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Method GlpiPlugin\\Wikitsemanticschat\\Profile\:\:getAllRights\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Profile.php
