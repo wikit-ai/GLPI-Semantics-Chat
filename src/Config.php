@@ -31,7 +31,11 @@ namespace GlpiPlugin\Wikitsemanticschat;
 
 use CommonDBTM;
 use Glpi\Application\View\TemplateRenderer;
+use Psr\SimpleCache\CacheInterface;
 use Session;
+
+use function Safe\parse_url;
+use function Safe\preg_match;
 
 /**
  * Configuration class for Semantics Chat plugin
@@ -64,6 +68,89 @@ class Config extends CommonDBTM
         }
 
         return $config;
+    }
+
+    /**
+     * Name of the meta tag holding the widget data in the GLPI pages
+     */
+    public const WIDGET_DATA_META = 'wikitsemanticschat-widget';
+
+    /**
+     * GLPI cache key of the configuration fields, see `getWidgetData()`
+     */
+    private const string FIELDS_CACHE_KEY = 'wikitsemanticschat_config_fields';
+
+    /**
+     * Lifetime of the configuration fields kept in the GLPI cache, in seconds
+     */
+    private const int FIELDS_CACHE_TTL = 3600;
+
+    /**
+     * Data of the chat widget for the current user, added to every GLPI page.
+     *
+     * It needs no database query: the configuration is kept in the GLPI cache (cleared when the
+     * configuration is saved) and the user information comes from the session.
+     *
+     * Depends on the session and the configuration.
+     *
+     * @phpstan-impure
+     * @return array<string, mixed> Same format as `ajax/config.php`
+     */
+    public static function getWidgetData(): array
+    {
+        /** @var CacheInterface $GLPI_CACHE */
+        global $GLPI_CACHE;
+
+        $userId = Session::getLoginUserID();
+        if ($userId === false || !Session::haveRight(self::$rightname, READ)) {
+            return ['success' => false, 'error' => 'Access denied'];
+        }
+
+        $fields = $GLPI_CACHE->get(self::FIELDS_CACHE_KEY);
+        if (!is_array($fields)) {
+            $fields = self::getConfig(true)->fields;
+            $GLPI_CACHE->set(self::FIELDS_CACHE_KEY, $fields, self::FIELDS_CACHE_TTL);
+        }
+
+        /** @var array<string, mixed> $fields */
+        $config = new self();
+        $config->fields = $fields;
+        if (!$config->isConfigured()) {
+            return ['success' => false, 'error' => 'Plugin not configured'];
+        }
+
+        return [
+            'success'   => true,
+            'config'    => $config->getJsConfig(),
+            'scriptUrl' => $config->getScriptUrl(),
+            'userInfo'  => [
+                'id'        => $userId,
+                'login'     => $_SESSION['glpiname'] ?? '',
+                'firstname' => $_SESSION['glpifirstname'] ?? '',
+                'realname'  => $_SESSION['glpirealname'] ?? '',
+                'language'  => $_SESSION['glpilanguage'] ?? 'fr_FR',
+            ],
+        ];
+    }
+
+    public function post_addItem()
+    {
+        parent::post_addItem();
+        $this->clearFieldsCache();
+    }
+
+    public function post_updateItem($history = true)
+    {
+        parent::post_updateItem($history);
+        $this->clearFieldsCache();
+    }
+
+    private function clearFieldsCache(): void
+    {
+        /** @var CacheInterface $GLPI_CACHE */
+        global $GLPI_CACHE;
+
+        $GLPI_CACHE->delete(self::FIELDS_CACHE_KEY);
     }
 
     /**
@@ -113,6 +200,63 @@ class Config extends CommonDBTM
     public static function canUpdate(): bool
     {
         return Session::haveRight(self::$rightname, UPDATE);
+    }
+
+    /**
+     * Validate the widget settings before saving them: they are given as-is to the chat
+     * widget (CSS dimensions and positions, image URL)
+     *
+     * @param array<string, mixed> $input Input data
+     * @return array<string, mixed>|false Input data, false when a value is invalid
+     */
+    public function prepareInputForUpdate($input)
+    {
+        $errors = [];
+
+        // Submitted values, trimmed (non scalar values are invalid)
+        $values = [];
+        foreach (['color', 'chat_button_width', 'chat_button_height', 'position_right', 'position_left', 'position_bottom', 'chat_button_icon_url'] as $field) {
+            if (array_key_exists($field, $input)) {
+                $values[$field] = is_scalar($input[$field]) ? trim((string) $input[$field]) : '';
+                $input[$field] = $values[$field];
+            }
+        }
+
+        if (isset($values['color']) && !preg_match('/^#[0-9a-fA-F]{6}$/', $values['color'])) {
+            $errors[] = __('The button color must be an hexadecimal color (#RRGGBB).', 'wikitsemanticschat');
+        }
+
+        foreach (['chat_button_width', 'chat_button_height'] as $field) {
+            if (isset($values[$field]) && !preg_match('/^[1-9]\d{0,3}$/', $values[$field])) {
+                $errors[] = __('The button dimensions must be positive integers.', 'wikitsemanticschat');
+                break;
+            }
+        }
+
+        foreach (['position_right', 'position_left', 'position_bottom'] as $field) {
+            if (isset($values[$field]) && $values[$field] !== 'auto' && !preg_match('/^\d{1,3}(\.\d{1,2})?$/', $values[$field])) {
+                $errors[] = __('The positions must be numbers or "auto".', 'wikitsemanticschat');
+                break;
+            }
+        }
+
+        $url = $values['chat_button_icon_url'] ?? '';
+        if ($url !== '') {
+            $scheme = filter_var($url, FILTER_VALIDATE_URL) !== false ? parse_url($url, PHP_URL_SCHEME) : null;
+            if (!is_string($scheme) || strtolower($scheme) !== 'https') {
+                $errors[] = __('The button icon URL must be a valid HTTPS URL.', 'wikitsemanticschat');
+            }
+        }
+
+        if ($errors !== []) {
+            foreach ($errors as $error) {
+                Session::addMessageAfterRedirect(htmlescape($error), false, ERROR);
+            }
+
+            return false;
+        }
+
+        return $input;
     }
 
     /**

@@ -31,56 +31,7 @@ use GlpiPlugin\Wikitsemanticschat\Config;
 
 use function Safe\json_encode;
 
-// Set JSON content type header
+// Widget data: fallback of wikitsemanticschat.js when the data is not in the page (meta tag added by the post_init hook)
 header('Content-Type: application/json; charset=utf-8');
 
-// Check if user is logged in
-$userId = Session::getLoginUserID();
-if (!$userId) {
-    echo json_encode([
-        'success' => false,
-        'error'   => 'Not authenticated',
-    ]);
-    return;
-}
-
-// Check if user has READ right on the plugin
-if (!Session::haveRight(Config::$rightname, READ)) {
-    echo json_encode([
-        'success' => false,
-        'error'   => 'Access denied',
-    ]);
-    return;
-}
-
-// Get configuration
-$config = Config::getConfig();
-
-// Check if plugin is properly configured
-if (!$config->isConfigured()) {
-    echo json_encode([
-        'success' => false,
-        'error'   => 'Plugin not configured',
-    ]);
-    return;
-}
-
-// Get current user information
-$user = new User();
-$user->getFromDB($userId);
-
-$userInfo = [
-    'id'        => $userId,
-    'login'     => $user->fields['name'] ?? '',
-    'firstname' => $user->fields['firstname'] ?? '',
-    'realname'  => $user->fields['realname'] ?? '',
-    'language'  => $_SESSION['glpilanguage'] ?? 'fr_FR',
-];
-
-// Return configuration
-echo json_encode([
-    'success'   => true,
-    'config'    => $config->getJsConfig(),
-    'scriptUrl' => $config->getScriptUrl(),
-    'userInfo'  => $userInfo,
-]);
+echo json_encode(Config::getWidgetData());

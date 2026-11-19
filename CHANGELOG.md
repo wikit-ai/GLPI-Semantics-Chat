@@ -2,6 +2,16 @@
 
 All notable changes to the Wikit Semantics Chat plugin will be documented in this file.
 
+## [3.0.1] - 2026-11-19
+
+### Changed
+- Performance: the widget data is added to the GLPI pages (meta tag) instead of being loaded with an AJAX request on every page; the configuration is kept in the GLPI cache (cleared when the configuration is saved) and the user information comes from the session, so no database query is added to the pages
+- Performance: the Profile tab no longer writes the plugin right each time it is displayed
+
+### Fixed
+- Widget settings validated when saving the configuration: hexadecimal color, integer dimensions, numeric or `auto` positions, HTTPS icon URL
+- Widget script scoped so that loading it twice no longer raises a JavaScript error
+
 ## [3.0.0] - 2026-10-20
 
 Versions 3.x are dedicated to GLPI 12 (2.x: GLPI 11, 1.x: GLPI 10).

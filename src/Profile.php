@@ -76,12 +76,9 @@ class Profile extends GlpiProfile
         $withtemplate = 0,
     ): bool {
         if ($item instanceof GlpiProfile) {
-            $profile = new self();
-            self::addDefaultProfileInfos(
-                $item->getID(),
-                [Config::$rightname => 0],
-            );
-            $profile->showForm($item->getID());
+            // The right exists for every profile: added on installation (`initProfile()`), and by GLPI
+            // when a profile is created. No need to check it each time the tab is displayed.
+            (new self())->showForm($item->getID());
         }
 
         return true;
@@ -253,7 +250,8 @@ class Profile extends GlpiProfile
             'FROM'  => 'glpi_profilerights',
             'WHERE' => [
                 'profiles_id' => $profileId,
-                'name'        => ['LIKE', '%plugin_wikitsemanticschat%'],
+                // Exact names: in a LIKE pattern, "_" matches any character
+                'name'        => array_column(self::getAllRights(), 'field'),
             ],
         ]);
 

@@ -24,7 +24,7 @@ This plugin enables users to interact with an AI assistant that leverages your o
 - Customizable widget appearance (color, position, icon, dimensions)
 - Contextual intelligence leveraging your knowledge base and business processes
 - Natural language conversation interface
-- Support for GLPI 10.0+ 11.0+
+- Support for GLPI 10, 11 and 12 (one major plugin version per GLPI version)
 
 ## Requirements
 
@@ -42,6 +42,12 @@ This plugin enables users to interact with an AI assistant that leverages your o
 
 ## Installation
 
+| GLPI | Plugin version to install |
+|------|---------------------------|
+| 12.0.x | 3.0.1 |
+| 11.0.x | 2.0.3 |
+| 10.0.x | 1.0.3 |
+
 ### Via GLPI Marketplace (Recommended)
 
 1. Go to **Setup > Plugins** in GLPI
@@ -53,11 +59,11 @@ This plugin enables users to interact with an AI assistant that leverages your o
 
 ### Manual Installation
 
-1. Download the latest release from [GitHub Releases](https://github.com/wikitai/GLPI-Semantics-Chat/releases)
+1. Download the latest release from [GitHub Releases](https://github.com/wikit-ai/GLPI-Semantics-Chat/releases)
 2. Extract the archive to your GLPI plugins directory:
    ```bash
    cd /path/to/glpi/plugins
-   tar -xjf wikitsemanticschat-2.0.0.tar.bz2
+   tar -xjf wikitsemanticschat-3.0.1.tar.bz2
    ```
 3. Go to **Setup > Plugins** in GLPI
 4. Find "Wikit Semantics Chat" in the list
@@ -111,8 +117,15 @@ Wikit Semantics Chat provides enterprise-grade AI conversational assistants for 
 ### Configuration not saving
 
 1. Verify you have **Update** permission for the plugin
-2. Check GLPI error logs in `files/_log/`
-3. Ensure database connection is working
+2. Check the error message displayed after saving: the color must be an hexadecimal color (`#RRGGBB`),
+   the button dimensions positive integers, the positions numbers or `auto`, and the icon URL an HTTPS URL
+3. Check GLPI error logs in `files/_log/`
+
+### Changes not visible after an upgrade
+
+The widget data is added to the GLPI pages and kept in the GLPI cache (cleared when the configuration
+is saved). Reload the page with the browser cache disabled (Ctrl+Shift+R), or run
+`php bin/console cache:clear` in GLPI.
 
 ### Widget loads but doesn't work
 
@@ -165,10 +178,10 @@ See [LICENSE](LICENSE) file for details.
 
 ## Support
 
-For issues, questions, or contributions, please visit our [GitHub repository](https://github.com/wikitai/GLPI-Semantics-Chat).
+For issues, questions, or contributions, please visit our [GitHub repository](https://github.com/wikit-ai/GLPI-Semantics-Chat).
 
-- 🐛 **Report issues**: [GitHub Issues](https://github.com/wikitai/GLPI-Semantics-Chat/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/wikitai/GLPI-Semantics-Chat/discussions)
+- 🐛 **Report issues**: [GitHub Issues](https://github.com/wikit-ai/GLPI-Semantics-Chat/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/wikit-ai/GLPI-Semantics-Chat/discussions)
 - 🌐 **Wikit Website**: [wikit.ai](https://www.wikit.ai)
 
 ---

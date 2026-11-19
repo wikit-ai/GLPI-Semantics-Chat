@@ -32,7 +32,7 @@ use GlpiPlugin\Wikitsemanticschat\Config;
 use GlpiPlugin\Wikitsemanticschat\Profile;
 
 /** @phpstan-ignore theCodingMachineSafe.function (safe to assume this isn't already defined) */
-define('PLUGIN_WIKITSEMANTICSCHAT_VERSION', '3.0.0');
+define('PLUGIN_WIKITSEMANTICSCHAT_VERSION', '3.0.1');
 // Minimal GLPI version, inclusive
 /** @phpstan-ignore theCodingMachineSafe.function (safe to assume this isn't already defined) */
 define('PLUGIN_WIKITSEMANTICSCHAT_MIN_GLPI_VERSION', '12.0.0');
@@ -74,6 +74,9 @@ function plugin_init_wikitsemanticschat(): void
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['wikitsemanticschat'] = [
             'js/wikitsemanticschat.js',
         ];
+
+        // Widget data added to the pages, see plugin_wikitsemanticschat_post_init()
+        $PLUGIN_HOOKS[Hooks::POST_INIT]['wikitsemanticschat'] = 'plugin_wikitsemanticschat_post_init';
 
         // Configuration page in Setup > Plugins
         if (Session::haveRight(\Config::$rightname, UPDATE)) {
