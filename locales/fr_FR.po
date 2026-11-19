@@ -76,3 +76,19 @@ msgstr "Bas"
 #: src/Profile.php
 msgid "Semantics Chat"
 msgstr "Semantics Chat"
+
+#: src/Config.php
+msgid "The button color must be an hexadecimal color (#RRGGBB)."
+msgstr "La couleur du bouton doit être une couleur hexadécimale (#RRGGBB)."
+
+#: src/Config.php
+msgid "The button dimensions must be positive integers."
+msgstr "Les dimensions du bouton doivent être des entiers positifs."
+
+#: src/Config.php
+msgid "The positions must be numbers or \"auto\"."
+msgstr "Les positions doivent être des nombres ou « auto »."
+
+#: src/Config.php
+msgid "The button icon URL must be a valid HTTPS URL."
+msgstr "L'URL de l'icône du bouton doit être une URL HTTPS valide."

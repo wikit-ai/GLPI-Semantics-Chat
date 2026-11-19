@@ -27,30 +27,70 @@
 
 /* global wrapSemanticsChat */
 
-/**
- * Wikit Semantics Chat Widget Manager
- * Handles the injection and configuration of the Wikit Semantics Chat widget
- */
-class WikitSemanticsChatWidget {
-    constructor() {
-        this.chatApi = null;
-        this.config = null;
-        this.scriptLoaded = false;
-        this.initialized = false;
-    }
-
+// Scoped: a second load of the script must not redeclare the class (SyntaxError)
+(function () {
     /**
-     * Initialize the widget with configuration from GLPI
+     * Wikit Semantics Chat Widget Manager
+     * Handles the injection and configuration of the Wikit Semantics Chat widget
      */
-    async init() {
-        if (this.initialized) {
-            return;
+    class WikitSemanticsChatWidget {
+        constructor() {
+            this.chatApi = null;
+            this.config = null;
+            this.scriptLoaded = false;
+            this.initialized = false;
         }
 
-        this.initialized = true;
+        /**
+         * Initialize the widget with configuration from GLPI
+         */
+        async init() {
+            if (this.initialized) {
+                return;
+            }
 
-        try {
-            // Fetch configuration from GLPI backend
+            this.initialized = true;
+
+            try {
+                const data = await this.getWidgetData();
+                if (data === null) {
+                    console.warn('Wikit Semantics Chat: Failed to fetch configuration');
+                    return;
+                }
+
+                if (!data.success || !data.config) {
+                    console.warn('Wikit Semantics Chat: Plugin not configured');
+                    return;
+                }
+
+                this.config = data.config;
+                this.userInfo = data.userInfo || {};
+
+                // Load the Semantics Chat script
+                await this.loadScript(data.scriptUrl);
+
+                // Initialize the chat widget
+                this.initWidget();
+            } catch (error) {
+                console.error('Wikit Semantics Chat: Initialization error', error);
+            }
+        }
+
+        /**
+         * Widget data: added to the page by the plugin (meta tag, no request needed),
+         * or loaded through AJAX when the page has no such tag
+         * @returns {Promise<object|null>}
+         */
+        async getWidgetData() {
+            const meta = document.querySelector('meta[name="wikitsemanticschat-widget"]');
+            if (meta) {
+                try {
+                    return JSON.parse(meta.getAttribute('content'));
+                } catch (error) {
+                    console.error('Wikit Semantics Chat: Invalid widget data in the page', error);
+                }
+            }
+
             const response = await fetch(
                 `${CFG_GLPI.root_doc  }/plugins/wikitsemanticschat/ajax/config.php`,
                 {
@@ -62,172 +102,151 @@ class WikitSemanticsChatWidget {
                 }
             );
 
-            if (!response.ok) {
-                console.warn('Wikit Semantics Chat: Failed to fetch configuration');
+            return response.ok ? response.json() : null;
+        }
+
+        /**
+         * Load the Semantics Chat embed script
+         * @param {string} scriptUrl - URL of the chat embed script
+         * @returns {Promise}
+         */
+        loadScript(scriptUrl) {
+            return new Promise((resolve, reject) => {
+                if (this.scriptLoaded) {
+                    resolve();
+                    return;
+                }
+
+                const existingScript = document.querySelector('script[data-wikit-semantics-chat="true"]');
+                if (existingScript) {
+                    existingScript.addEventListener('load', () => {
+                        this.scriptLoaded = true;
+                        resolve();
+                    }, { once: true });
+                    existingScript.addEventListener('error', () => {
+                        reject(new Error('Failed to load Wikit Semantics Chat script'));
+                    }, { once: true });
+
+                    if (typeof wrapSemanticsChat === 'function') {
+                        this.scriptLoaded = true;
+                        resolve();
+                    }
+
+                    return;
+                }
+
+                const script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = scriptUrl;
+                script.async = true;
+                script.dataset.wikitSemanticsChat = 'true';
+
+                script.onload = () => {
+                    this.scriptLoaded = true;
+                    resolve();
+                };
+
+                script.onerror = () => {
+                    reject(new Error('Failed to load Wikit Semantics Chat script'));
+                };
+
+                document.head.appendChild(script);
+            });
+        }
+
+        /**
+         * Initialize the chat widget with configuration
+         */
+        initWidget() {
+            if (typeof wrapSemanticsChat !== 'function') {
+                console.error('Wikit Semantics Chat: wrapSemanticsChat function not found');
                 return;
             }
 
-            const data = await response.json();
-
-            if (!data.success || !data.config) {
-                console.warn('Wikit Semantics Chat: Plugin not configured');
-                return;
-            }
-
-            this.config = data.config;
-            this.userInfo = data.userInfo || {};
-
-            // Load the Semantics Chat script
-            await this.loadScript(data.scriptUrl);
+            // Build widget configuration
+            const widgetConfig = {
+                ...this.config,
+                // Add custom params with user information
+                customParams: {
+                    userLogin: this.userInfo.login || '',
+                    firstName: this.userInfo.firstname || '',
+                    lastName: this.userInfo.realname || '',
+                    userId: this.userInfo.id || '',
+                    language: this.userInfo.language || 'fr_FR',
+                    currentURL: window.location.href,
+                },
+            };
 
             // Initialize the chat widget
-            this.initWidget();
-        } catch (error) {
-            console.error('Wikit Semantics Chat: Initialization error', error);
+            this.chatApi = wrapSemanticsChat(widgetConfig);
+        }
+
+        /**
+         * Update custom params dynamically
+         * @param {Object} params - New custom parameters
+         */
+        setCustomParams(params) {
+            if (this.chatApi && typeof this.chatApi.setCustomParams === 'function') {
+                this.chatApi.setCustomParams(params);
+            }
+        }
+
+        /**
+         * Open the chat widget
+         */
+        open() {
+            if (this.chatApi && typeof this.chatApi.open === 'function') {
+                this.chatApi.open();
+            }
+        }
+
+        /**
+         * Close the chat widget
+         */
+        close() {
+            if (this.chatApi && typeof this.chatApi.close === 'function') {
+                this.chatApi.close();
+            }
         }
     }
 
-    /**
-     * Load the Semantics Chat embed script
-     * @param {string} scriptUrl - URL of the chat embed script
-     * @returns {Promise}
-     */
-    loadScript(scriptUrl) {
-        return new Promise((resolve, reject) => {
-            if (this.scriptLoaded) {
-                resolve();
-                return;
-            }
-
-            const existingScript = document.querySelector('script[data-wikit-semantics-chat="true"]');
-            if (existingScript) {
-                existingScript.addEventListener('load', () => {
-                    this.scriptLoaded = true;
-                    resolve();
-                }, { once: true });
-                existingScript.addEventListener('error', () => {
-                    reject(new Error('Failed to load Wikit Semantics Chat script'));
-                }, { once: true });
-
-                if (typeof wrapSemanticsChat === 'function') {
-                    this.scriptLoaded = true;
-                    resolve();
-                }
-
-                return;
-            }
-
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = scriptUrl;
-            script.async = true;
-            script.dataset.wikitSemanticsChat = 'true';
-
-            script.onload = () => {
-                this.scriptLoaded = true;
-                resolve();
-            };
-
-            script.onerror = () => {
-                reject(new Error('Failed to load Wikit Semantics Chat script'));
-            };
-
-            document.head.appendChild(script);
-        });
+    function isWikitSemanticsChatMainFrame() {
+        try {
+            return window.self === window.top;
+        } catch {
+            return false;
+        }
     }
 
-    /**
-     * Initialize the chat widget with configuration
-     */
-    initWidget() {
-        if (typeof wrapSemanticsChat !== 'function') {
-            console.error('Wikit Semantics Chat: wrapSemanticsChat function not found');
+    function initWikitSemanticsChatWidget() {
+        // Check if we're in GLPI context and user is logged in
+        if (typeof CFG_GLPI === 'undefined') {
+            console.warn('Wikit Semantics Chat: Not in GLPI context');
             return;
         }
 
-        // Build widget configuration
-        const widgetConfig = {
-            ...this.config,
-            // Add custom params with user information
-            customParams: {
-                userLogin: this.userInfo.login || '',
-                firstName: this.userInfo.firstname || '',
-                lastName: this.userInfo.realname || '',
-                userId: this.userInfo.id || '',
-                language: this.userInfo.language || 'fr_FR',
-                currentURL: window.location.href,
-            },
-        };
-
-        // Initialize the chat widget
-        this.chatApi = wrapSemanticsChat(widgetConfig);
-    }
-
-    /**
-     * Update custom params dynamically
-     * @param {Object} params - New custom parameters
-     */
-    setCustomParams(params) {
-        if (this.chatApi && typeof this.chatApi.setCustomParams === 'function') {
-            this.chatApi.setCustomParams(params);
+        if (!isWikitSemanticsChatMainFrame()) {
+            return;
         }
-    }
 
-    /**
-     * Open the chat widget
-     */
-    open() {
-        if (this.chatApi && typeof this.chatApi.open === 'function') {
-            this.chatApi.open();
+        if (window.__WikitSemanticsChatWidgetInstance) {
+            window.WikitSemanticsChatWidget = window.__WikitSemanticsChatWidgetInstance;
+            window.WikitSemanticsChatWidget.init();
+            return;
         }
-    }
 
-    /**
-     * Close the chat widget
-     */
-    close() {
-        if (this.chatApi && typeof this.chatApi.close === 'function') {
-            this.chatApi.close();
-        }
-    }
-}
+        // Create global instance
+        window.WikitSemanticsChatWidget = new WikitSemanticsChatWidget();
+        window.__WikitSemanticsChatWidgetInstance = window.WikitSemanticsChatWidget;
 
-function isWikitSemanticsChatMainFrame() {
-    try {
-        return window.self === window.top;
-    } catch {
-        return false;
-    }
-}
-
-function initWikitSemanticsChatWidget() {
-    // Check if we're in GLPI context and user is logged in
-    if (typeof CFG_GLPI === 'undefined') {
-        console.warn('Wikit Semantics Chat: Not in GLPI context');
-        return;
-    }
-
-    if (!isWikitSemanticsChatMainFrame()) {
-        return;
-    }
-
-    if (window.__WikitSemanticsChatWidgetInstance) {
-        window.WikitSemanticsChatWidget = window.__WikitSemanticsChatWidgetInstance;
+        // Initialize
         window.WikitSemanticsChatWidget.init();
-        return;
     }
 
-    // Create global instance
-    window.WikitSemanticsChatWidget = new WikitSemanticsChatWidget();
-    window.__WikitSemanticsChatWidgetInstance = window.WikitSemanticsChatWidget;
-
-    // Initialize
-    window.WikitSemanticsChatWidget.init();
-}
-
-// Initialize the widget when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWikitSemanticsChatWidget, { once: true });
-} else {
-    initWikitSemanticsChatWidget();
-}
+    // Initialize the widget when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initWikitSemanticsChatWidget, { once: true });
+    } else {
+        initWikitSemanticsChatWidget();
+    }
+})();

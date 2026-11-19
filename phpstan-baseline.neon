@@ -45,7 +45,7 @@ parameters:
 		-
 			message: '#^Cannot access offset ''wikitsemanticschat'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 2
+			count: 3
 			path: setup.php
 
 		-

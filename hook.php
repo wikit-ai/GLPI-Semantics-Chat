@@ -28,8 +28,11 @@
  */
 
 use Glpi\DBAL\QueryFunction;
+use Glpi\Plugin\Hooks;
 use GlpiPlugin\Wikitsemanticschat\Config;
 use GlpiPlugin\Wikitsemanticschat\Profile;
+
+use function Safe\json_encode;
 
 /**
  * Check plugin configuration after installation
@@ -132,4 +135,30 @@ function plugin_wikitsemanticschat_uninstall(): bool
     Profile::removeRightsFromSession();
 
     return true;
+}
+
+/**
+ * Hook called after all the plugins are initialized.
+ *
+ * Adds the widget data in the GLPI pages, so that the JavaScript does not need an AJAX
+ * request on every page.
+ */
+function plugin_wikitsemanticschat_post_init(): void
+{
+    /** @var array<string, array<string, mixed>> $PLUGIN_HOOKS */
+    global $PLUGIN_HOOKS;
+
+    try {
+        $PLUGIN_HOOKS[Hooks::ADD_HEADER_TAG]['wikitsemanticschat'] = [[
+            'tag'        => 'meta',
+            'properties' => [
+                'name'    => Config::WIDGET_DATA_META,
+                'content' => json_encode(Config::getWidgetData()),
+            ],
+        ]];
+    } catch (Throwable $throwable) {
+        // The JavaScript falls back to an AJAX request: the pages must never break because of the plugin
+        global $PHPLOGGER;
+        $PHPLOGGER->error('Wikit Semantics Chat: unable to add the widget data to the page', ['exception' => $throwable]);
+    }
 }
